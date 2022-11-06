@@ -295,7 +295,7 @@ public class HookMain implements IXposedHookLoadPackage {
                         XposedBridge.log("【VCAM】" + ee.toString());
                     }
                     File force_private = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/Camera1/private_dir.jpg");
-                    if (toast_content != null) {//后半段用于强制私有目录
+                    if (toast_content != null) {//后半段用于强制私有目录 [The second half is used to force private directories]
                         int auth_statue = 0;
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             try {
@@ -315,7 +315,7 @@ public class HookMain implements IXposedHookLoadPackage {
                                 auth_statue = 2;
                             }
                         }
-                        //权限判断完毕
+                        //权限判断完毕 [Permissions judged complete]
                         if (auth_statue < 1 || force_private.exists()) {
                             File shown_file = new File(toast_content.getExternalFilesDir(null).getAbsolutePath() + "/Camera1/");
                             if ((!shown_file.isDirectory()) && shown_file.exists()) {
@@ -1183,14 +1183,14 @@ public class HookMain implements IXposedHookLoadPackage {
 
 
 
-    //以下代码来源：https://blog.csdn.net/jacke121/article/details/73888732
+    //以下代码来源 [source]：https://blog.csdn.net/jacke121/article/details/73888732
     private Bitmap getBMP(String file) throws Throwable {
         return BitmapFactory.decodeFile(file);
     }
 
     private static byte[] rgb2YCbCr420(int[] pixels, int width, int height) {
         int len = width * height;
-        // yuvformat数组大小，y亮度占len长度，u,v各占len/4长度。
+        // yuv数组大小 [format array size]，y亮度占len长度 [brightness accounts for len]，u,v各占len/4长度。[each accounts for len/4]
         byte[] yuv = new byte[len * 3 / 2];
         int y, u, v;
         for (int i = 0; i < height; i++) {
@@ -1199,14 +1199,14 @@ public class HookMain implements IXposedHookLoadPackage {
                 int r = rgb & 0xFF;
                 int g = (rgb >> 8) & 0xFF;
                 int b = (rgb >> 16) & 0xFF;
-                // 套用公式
+                // 套用公式 [Apply formula]
                 y = ((66 * r + 129 * g + 25 * b + 128) >> 8) + 16;
                 u = ((-38 * r - 74 * g + 112 * b + 128) >> 8) + 128;
                 v = ((112 * r - 94 * g - 18 * b + 128) >> 8) + 128;
                 y = y < 16 ? 16 : (Math.min(y, 255));
                 u = u < 0 ? 0 : (Math.min(u, 255));
                 v = v < 0 ? 0 : (Math.min(v, 255));
-                // 赋值
+                // 赋值 [Assign]
                 yuv[i * width + j] = (byte) y;
                 yuv[len + (i >> 1) * width + (j & ~1)] = (byte) u;
                 yuv[len + +(i >> 1) * width + (j & ~1) + 1] = (byte) v;
